@@ -52,10 +52,10 @@ while keyboard.is_pressed('q') == False:
     #print(f"Max Val: {max_val} Max Loc: {max_loc}")
 
     #new_x = recount((max_loc[0] + w//2))
-    if max_val > 0.25:
+    if max_val > 0.251:
     # Moving cursor right bellow the ball
     #move((new_x + 747), 1161)
-        move((max_loc[0] + w//2 + 747), 1161)
+        move((recount(max_loc[0]) + w//2 + 747), 1161)
     
     # Putting a circle above the ball
         #cv2.circle(screenshot_r, (max_loc[0] + w//2, max_loc[1]+ h//2), 20, (255,255,255), 4)
