@@ -5,6 +5,8 @@
 
 **[Video](https://www.youtube.com/watch?v=akwmVh6k5aY&ab_channel=KroSheChKa) how FootBot ("fast" branch) works**
 
+https://user-images.githubusercontent.com/104899233/232225652-76f9716a-ed4e-47fb-81b8-358fb6ec9a55.mp4
+
 - If you want maximum performance of the bot, go to the **[fast](https://github.com/KroSheChKa/FootBot/tree/fast)** branch, if you want to observe the process for a while, go to the **[main](https://github.com/KroSheChKa/FootBot)**
 
 ### So the idea is
