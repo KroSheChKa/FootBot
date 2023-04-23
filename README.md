@@ -3,11 +3,17 @@
 
 **The bot works in general using computer vision (OpenCV + mss libraries), and mouse movement emulation.**
 
+**[Video](https://www.youtube.com/watch?v=akwmVh6k5aY&ab_channel=KroSheChKa) how FootBot ("fast" branch) works**
+
+https://user-images.githubusercontent.com/104899233/232225652-76f9716a-ed4e-47fb-81b8-358fb6ec9a55.mp4
+
+- If you want maximum performance of the bot, go to the **[fast](https://github.com/KroSheChKa/FootBot/tree/fast)** branch, if you want to observe the process for a while, go to the **[main](https://github.com/KroSheChKa/FootBot)**
+
+### So the idea is
+
 The [game](https://vk.com/app8013553) is built on the principle of ping-pong, where you have to hit the ball and hit all the bricks from above. Miss - lose.
 
 *The game is constructed in such a way that from the PC version the control of the brick that kicks the ball is done by just moving the cursor. (The brick follows the cursor)*
-
-### So the idea is
 
 **1. Get the most possible coordinates of the ball. And VERY quickly, because with each new level the ball accelerates faster and faster.**
 
@@ -22,40 +28,28 @@ The [game](https://vk.com/app8013553) is built on the principle of ping-pong, wh
 and thats it.
 
 ----
-### A small optimization
+### Total optimization
 
-I made a small optimization, by limiting the cursor area. Why is this necessary? In a game there can be a case where the ball hits the corner of the soccer field, and the cursor, not keeping up with the ball (about this later), pinches it in the corner. The ball comes out of such a position with the least resistance - in the goal. Therefore, the cursor is limited so that it does not jam the ball, but also would not let the ball into the goal at any angle.
+**I made as much effort to optimize the bot as possible. The next stage of optimization goes beyond Python to C++**
+
+I implemented some optimization features:
+- I made a small optimization, by limiting the cursor area. Why is this necessary? In a game there can be a case where the ball hits the corner of the soccer field, and the cursor, not keeping up with the ball (about this later), pinches it in the corner. The ball comes out of such a position with the least resistance - in the goal. Therefore, the cursor is limited so that it does not jam the ball, but also would not let the ball into the goal at any angle.
 
 ```python
 win32api.ClipCursor((width start,height start,width end,height end))
 ```
+- A new optimization [feature](https://github.com/KroSheChKa/FootBot/commit/92d9ba6f254b7bf6952f8debc7283942045523f6) has been added. The reason for creating it was the fact that the ball could kind of "slide" off the edge of the brick and hit the goal. Since the brick should ideally only travel along the goal to kick the ball (or maybe it's all over the field), I came up with a solution:
+```python
+x = round((x_old - goal_center) * 0.7) + goal_center
+```
+>Shrink the entire visible field for the bot to the size of the goal. Multiply the difference between the center of the goal and the X coordinate of the ball by coefficient and add to the center of the goal. In my case, the coefficient is 0.7.
+
+    Now the bot hardly ever faces the problem that the ball is ahead of him.
+    
 ----
-### A technical problem with the bot
+### A technical problem with the ~~bot~~ game
 
-    As I mentioned earlier, more fps means less chance of missing the ball.
-
-**Even though the mss library does this at a rate of approximately 25 frames, there are cases where the cursor does not keep up with the ball. Let's look at the loop in details**
-
-1. Screenshot of the selected area (and the area is deliberately not large, to have more fps)
-
-2. Running through the original picture of the ball looking for the highest match
-
-3. Moving the cursor to the central coordinates (y does not change, it is not necessary)
-
-*That's it. This is the most simplified variant of the bot, but even so he manages to not keep up with the ball at high speeds.*
-
->Yes, there are small inaccuracies in determining the center of the ball, but they are at the level of inaccuracy and do not lead to this problem.
-
-**I have two guesses. Either you need MORE fps(1), or the time it takes to send coordinate data is too long to keep up with the speed of the ball(2).**
-
-1. Gotta find something faster than mss. Or rewrite it in C++, but OpenCV library is already written in C and I work with win32 library that is quiet close to OS and hardware.
-
-2. So in one frame the ball is at (x, y) coordinates, and when the cursor movement function has already received and is processing the data, the ball has already moved to (x + n, y + m). Where n and m can already be quite an impressive number so that the cursor does not keep up with the ball and misses the goal.
-
-        It is like we are following the shadow of the ball
-    **We need to take the coordinates in the 2 neighboring frames and calculate the estimated next movement to expect the ball faster when it has not yet appeared there.**
-
-    *But in this case we lose calculation time.*
+There was a whole paragraph here, which dealt with the problem with the bot. But they've already been fixed, and the rest are left to the game itself. The game doesn't have time to process the inputs, I think. It turns out that the game counts defeat when I actually kicked the ball
 
 ----
 
@@ -63,7 +57,7 @@ win32api.ClipCursor((width start,height start,width end,height end))
 
 As I said in my previous bot project [here](https://github.com/KroSheChKa/BasketBot/blob/main/README.md#how-to-use) that there is a huge attachment to certain coordinates on the screen. I use a 3440x1440 monitor and place the game window in a certain place. Based on this it should be understood that it's close to impossible to know the exact situation of the user to run the bot with one button :(
 
-**So in the case of self-launching, the user should configure everything manually for his working surroundings.**
+**So in the case of self-launching, the user should configure everything manually for his working surroundings ([help](https://github.com/KroSheChKa/BasketBot/blob/main/README.md#how-to-use)).**
 
 ----
 
@@ -72,5 +66,3 @@ As I said in my previous bot project [here](https://github.com/KroSheChKa/Basket
 *Any suggestions? You found a bug?*
 
 -> Leave a comment
-
-**I WILL ADD A VIDEO HOW THE BOT WORKS. ALSO TO MY PREVIOUS BOT**
