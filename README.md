@@ -57,7 +57,29 @@ There was a whole paragraph here, which dealt with the problem with the bot. But
 
 As I said in my previous bot projects [here](https://github.com/KroSheChKa/BasketBot/blob/main/README.md#how-to-use) that there is a huge attachment to `certain coordinates` on the screen. I use a 3440x1440 monitor and place the game window in a certain place. Based on this it should be understood that it's close to impossible to know the exact situation of the user to run the bot with one button :(
 
-**So in the case of self-launching, the user should configure everything manually for his working surroundings ([help](https://github.com/KroSheChKa/BasketBot/blob/main/README.md#how-to-use)).**
+**So in the case of self-launching, the user should configure everything manually for his working surroundings**
+
+- Install [python](https://www.python.org/downloads/) together with `IDLE` on your computer **(you should run the code via IDLE!)**
+- Clone this project by this command somewhere on your computer:
+> **Make sure you have downloaded [git](https://git-scm.com/downloads)!**
+```
+git clone https://github.com/KroSheChKa/FootBot.git
+```
+- Open cmd in the created folder or press RButton in the folder and click "`Git Bash Here`" and paste that:
+```
+pip install -r requirements.txt
+```
+
+**Particular case:** *If you have a monitor 3440x1440, then simply place the window with the game exactly half the screen on the left, set the **window scale 150%** and run it.*
+
+In other cases it is possible to run this code on your computer, **but** you will have to `change some values` depending on the resolution of your monitor, such as:
+```python 
+# Football field (game area)
+field = {'left': 747,'top': 990,'width': 462,'height': 200}
+```
+> and so on. Change things that depend on resoluion
+
+And you need to rescreenshot the ball and replace `Ball.png` in project. Try to make it the same way as mine.
 
 ----
 
