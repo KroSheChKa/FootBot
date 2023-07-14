@@ -3,17 +3,17 @@
 
 **The bot works in general using computer vision (OpenCV + mss libraries), and mouse movement emulation.**
 
-**[Video](https://www.youtube.com/watch?v=akwmVh6k5aY&ab_channel=KroSheChKa) how FootBot (`fast` branch) works**
+**[Video](https://www.youtube.com/watch?v=akwmVh6k5aY&ab_channel=KroSheChKa) how `FootBot_fast` works**
 
 https://user-images.githubusercontent.com/104899233/232225652-76f9716a-ed4e-47fb-81b8-358fb6ec9a55.mp4
 
-- If you want `maximum performance` of the bot, go to the **[fast](https://github.com/KroSheChKa/FootBot/tree/fast)** branch, if you want to `observe the process` for a while, go to the **[main](https://github.com/KroSheChKa/FootBot)**
+- If you want `maximum performance` of the bot launch `FootBot_fast`, if you want to **observe the process** and **modify the values** for a while launch `FootBot`
 
 ### So the idea is
 
 The [game](https://vk.com/app8013553) is built on the principle of ping-pong, where you have to hit the ball and hit all the bricks from above. Miss - lose.
 
-*The game is constructed in such a way that from the PC version the control of the brick that kicks the ball is done by just moving the cursor. (The brick follows the cursor)*
+*The game is constructed in such a way, that from the PC version the control of the brick that kicks the ball is done by just moving the cursor. (The brick follows the cursor)*
 
 **1. Get the most possible coordinates of the ball. And VERY quickly, because with each new level the ball accelerates faster and faster.**
 
@@ -25,7 +25,7 @@ The [game](https://vk.com/app8013553) is built on the principle of ping-pong, wh
 
 >Actually, I did a confidence threshold to calm down a cursor a little bit while a ball is away, but it had a bad influence on detecting the ball. Even with a little threshold.
 
-and thats it.
+some features and thats it.
 
 ----
 ### Total optimization
@@ -49,15 +49,15 @@ x = round((x_old - goal_center) * 0.7) + goal_center
 ----
 ### A technical problem with the ~~bot~~ game
 
-There was a whole paragraph here, which dealt with the problem with the bot. But they've already been fixed, and the rest are left in the game itself. The game doesn't have time to `process the inputs`, I think. It turns out that the game counts defeat when I actually kicked the ball.
+There was a whole paragraph here, which dealt with the problem with the bot. But they've already been fixed, and the rest are left in the game itself. The game doesn't have time to `process the inputs`, I think. It turns out that the game counts defeat when I actually kicked the ball. Also there are some in-game cases that highly accelerated ball might just go through the wall and cause a loss :(
 
 ----
 
 ## How to run
 
-As I said in my previous bot projects [here](https://github.com/KroSheChKa/BasketBot/blob/main/README.md#how-to-use) that there is a huge attachment to `certain coordinates` on the screen. I use a 3440x1440 monitor and place the game window in a certain place. Based on this it should be understood that it's close to impossible to know the exact situation of the user to run the bot with one button :(
+This bot has an enormous attachment to `certain coordinates` on the screen and to the screen resolution itself. Actually in the new commit on 13.07.2023 I added a solution that should help.
 
-**So in the case of self-launching, the user should configure everything manually for his working surroundings**
+All you have to to is:
 
 - Install [python](https://www.python.org/downloads/) together with `IDLE` on your computer **(you should run the code via IDLE!)**
 - Clone this project by this command somewhere on your computer:
@@ -72,18 +72,34 @@ pip install -r requirements.txt
 
 **Particular case:** *If you have a monitor 3440x1440, then simply place the window with the game exactly half the screen on the left, set the **window scale 150%** and run it.*
 
-In other cases it is possible to run this code on your computer, **but** you will have to `change some values` depending on the resolution of your monitor, such as:
+In other cases to run this code on your computer you will have to `change values` depending on the resolution of your monitor, such as:
 ```python 
 # Football field (game area)
-field = {'left': 747,'top': 990,'width': 462,'height': 200}
+field = {'left': 747,
+         'top': 990,
+         'width': 462,
+         'height': 200}
 ```
-> and so on. Change things that depend on resoluion
+![image](https://github.com/KroSheChKa/FootBot/assets/104899233/c6a186a9-f941-494f-a93a-da001182656c)
+> The corners of the rectangle are the `coordinates of your screen` relative to the left edge of the screen and the top edge of the screen
+```python
+# Limiting the cursor movement area btw soccer goalposts
+from_left, cursor_area = 870, 214
+...
+from_top = 1160
+```
+![image](https://github.com/KroSheChKa/FootBot/assets/104899233/35daa60c-fd5e-4a60-be77-3563bc3d968c)
+> Limit cursor area to make bot more effective
 
+Also you could play with the treashold of ball detection to make detection correct
+```python
+ball_threshold = 0.251
+```
 And you need to rescreenshot the ball and replace `Ball.png` in project. Try to make it the same way as mine.
 
 ----
 
->Also there are some in-game bugs and the bot may lose due to it
+>There are some in-game bugs and the bot may lose due to it
 
 *Any suggestions? You found a bug?*
 
