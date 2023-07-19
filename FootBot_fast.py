@@ -1,12 +1,15 @@
-import keyboard
 import mss
 import cv2
 import numpy
-from time import sleep
-import win32api
+import ctypes
+import win32api, win32con
 
 # Set the window scale to 150%
 # Game - https://vk.com/app8013553
+
+# Check whether the key is pressed
+def is_key_pressed(key):
+    return ctypes.windll.user32.GetAsyncKeyState(key) & 0x8000 != 0
 
 # Moves the cursor to x,y coordinates
 def move(x,y):
@@ -43,10 +46,12 @@ def main():
              'width': 462,
              'height': 200}
 
-    # Limiting the cursor movement area btw soccer goalposts
+    # Go to https://github.com/KroSheChKa/FootBot#how-to-run to set up it
     from_left, cursor_area = 870, 214
     width = from_left + cursor_area
     from_top = 1160
+
+    # Limiting the cursor movement area btw soccer goalposts
     win32api.ClipCursor((from_left,
                          from_top,
                          width,
@@ -56,7 +61,8 @@ def main():
     ball_threshold = 0.251
 
     # Press Q to quit the program
-    while keyboard.is_pressed('q') == False:
+    while not(is_key_pressed(0x51)):
+
         # Grabbing screenshot
         screenshot = numpy.array(mss_.grab(field))
         
@@ -70,6 +76,7 @@ def main():
         _, max_val, _, max_loc = cv2.minMaxLoc(ball)
         
         centre_ball = max_loc[0] + w//2
+
         # Recalculating for X coord.
         new_x = recount(centre_ball, field['width'] // 2)
         
@@ -83,8 +90,13 @@ def main():
         win32api.ClipCursor((0, 0, w_screen, h_screen))
 
 if __name__ == "__main__":
-    # Time to prepare
-    sleep(1.5)
 
-    # Program itself
+   # Press Q to start
+    while not(is_key_pressed(0x51)):
+        pass
+
+    # Instantly release the button
+    win32api.keybd_event(0x51, 0, win32con.KEYEVENTF_KEYUP, 0)
+
+    # Main program
     main()
