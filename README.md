@@ -91,11 +91,19 @@ from_top = 1160
 ![image](https://github.com/KroSheChKa/FootBot/assets/104899233/35daa60c-fd5e-4a60-be77-3563bc3d968c)
 > Limit cursor area to make bot more effective
 
-Also you could play with the treashold of ball detection to make detection correct
+You can also play with the ball detection threshold to make the detection valid
 ```python
 ball_threshold = 0.251
 ```
-And you need to rescreenshot the ball and replace `Ball.png` in project. Try to make it the same way as mine.
+
+- It is necessary to have an account in a popular CIS social network [VK.com](https://vk.com)
+  
+- Then go into the [Game](https://vk.com/app6657931)
+  
+- Make sure the game window is on the top. You will have a moment to remove the `IDLE Shell` from game area.
+
+And that's it.
+>I hope my detailed comments in the code will help you
 
 ----
 
@@ -103,4 +111,4 @@ And you need to rescreenshot the ball and replace `Ball.png` in project. Try to 
 
 *Any suggestions? You found a bug?*
 
--> Leave a comment
+-> Leave a comment in [Discussions](https://github.com/KroSheChKa/BasketBot/discussions)
